@@ -1,4 +1,4 @@
-package dev.gabrielsancho.boombox.boombox
+package dev.gabrielsancho.boombox
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

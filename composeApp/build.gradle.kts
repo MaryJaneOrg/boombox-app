@@ -69,6 +69,8 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+
+            implementation(libs.bundles.voyager)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -81,11 +83,11 @@ kotlin {
 }
 
 android {
-    namespace = "dev.gabrielsancho.boombox.boombox"
+    namespace = "dev.gabrielsancho.boombox"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "dev.gabrielsancho.boombox.boombox"
+        applicationId = "dev.gabrielsancho.boombox"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -113,11 +115,11 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "dev.gabrielsancho.boombox.boombox.MainKt"
+        mainClass = "dev.gabrielsancho.boombox.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "dev.gabrielsancho.boombox.boombox"
+            packageName = "dev.gabrielsancho.boombox"
             packageVersion = "1.0.0"
         }
     }
