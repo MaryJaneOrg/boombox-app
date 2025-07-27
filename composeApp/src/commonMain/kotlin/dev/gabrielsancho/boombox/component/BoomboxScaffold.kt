@@ -16,7 +16,7 @@ fun BoomboxScaffold(
     title: String,
     actionLabel: String,
     onAction: () -> Unit,
-    content: @Composable () -> Unit = {}
+    content: (@Composable () -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
@@ -34,10 +34,12 @@ fun BoomboxScaffold(
             text = title
         )
 
-        Box(
-            modifier = Modifier.weight(1f),
-            content = { content() }
-        )
+        content?.let {
+            Box(
+                modifier = Modifier.weight(1f),
+                content = { it() }
+            )
+        }
 
         Button(onAction) {
             Text(actionLabel)

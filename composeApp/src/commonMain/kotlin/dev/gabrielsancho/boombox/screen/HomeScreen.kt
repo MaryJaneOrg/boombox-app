@@ -11,11 +11,11 @@ class HomeScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
-        val someCode = remember { "" }
+        val someCode = remember { "Created on HomeScreen" }
 
         BoomboxScaffold(
             title = "HomeScreen",
-            actionLabel = "Go back",
+            actionLabel = "Go to profile",
             onAction = {
                 navigator?.push(ProfileScreen(someCode))
             }

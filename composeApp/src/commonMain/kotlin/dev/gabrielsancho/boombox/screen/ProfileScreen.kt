@@ -18,7 +18,7 @@ import dev.gabrielsancho.boombox.model.HomeModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 class ProfileScreen(
-    val someParameter: String
+    val someParameter: String = "Default value"
 ) : Screen {
 
     @Composable
@@ -44,7 +44,7 @@ class ProfileScreen(
     ) {
         BoomboxScaffold(
             title = "ProfileScreen ($screenName)",
-            actionLabel = "Go to profile",
+            actionLabel = "Go back",
             onAction = onAction
         ) {
             Column(

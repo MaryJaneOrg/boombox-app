@@ -1,5 +1,7 @@
 package dev.gabrielsancho.boombox.api.platform
 
-actual fun getPlatform(): Platform {
-    TODO("Not yet implemented")
+private object IOSPlatform : Platform {
+    override fun getName(): String = "iOS"
 }
+
+actual fun getPlatform(): Platform = IOSPlatform
