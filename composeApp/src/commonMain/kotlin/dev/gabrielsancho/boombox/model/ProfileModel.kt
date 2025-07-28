@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
-class HomeModel : ScreenModel {
+class ProfileModel : ScreenModel {
     private val platform: Platform = getPlatform()
 
     private val _name = MutableStateFlow(platform.getName())

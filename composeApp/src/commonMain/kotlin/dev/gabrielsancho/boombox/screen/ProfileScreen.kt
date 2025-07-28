@@ -10,11 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import dev.gabrielsancho.boombox.component.BoomboxScaffold
-import dev.gabrielsancho.boombox.model.HomeModel
+import dev.gabrielsancho.boombox.model.ProfileModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 class ProfileScreen(
@@ -24,8 +24,7 @@ class ProfileScreen(
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
-        val screenModel = rememberScreenModel { HomeModel() }
-
+        val screenModel = koinScreenModel<ProfileModel>()
 
         Content(
             countingState = screenModel.counter.collectAsState(),
