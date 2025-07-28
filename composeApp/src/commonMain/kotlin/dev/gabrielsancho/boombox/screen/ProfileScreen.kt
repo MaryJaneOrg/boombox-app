@@ -18,7 +18,7 @@ import dev.gabrielsancho.boombox.model.ProfileModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 class ProfileScreen(
-    val someParameter: String = "Default value"
+    val someParameter: String
 ) : Screen {
 
     @Composable
@@ -26,7 +26,8 @@ class ProfileScreen(
         val navigator = LocalNavigator.current
         val screenModel = koinScreenModel<ProfileModel>()
 
-        Content(
+        ProfileContent(
+            someParameter = someParameter,
             countingState = screenModel.counter.collectAsState(),
             screenName = screenModel.name.collectAsState(),
             onAction = { navigator?.pop() },
@@ -34,55 +35,57 @@ class ProfileScreen(
             onSettings = { navigator?.push(SettingsScreen()) }
         )
     }
+}
 
-    @Composable
-    private fun Content(
-        countingState: State<Int>,
-        screenName: State<String>,
-        onAction: () -> Unit = {},
-        onStartCounting: () -> Unit = {},
-        onSettings: () -> Unit = {}
+@Composable
+private fun ProfileContent(
+    someParameter: String,
+    countingState: State<Int>,
+    screenName: State<String>,
+    onAction: () -> Unit = {},
+    onStartCounting: () -> Unit = {},
+    onSettings: () -> Unit = {}
+) {
+    BoomboxScaffold(
+        title = "ProfileScreen (${screenName.value})",
+        actionLabel = "Go back",
+        onAction = onAction
     ) {
-        BoomboxScaffold(
-            title = "ProfileScreen (${screenName.value})",
-            actionLabel = "Go back",
-            onAction = onAction
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(
+                space = 16.dp,
+                alignment = Alignment.CenterVertically
+            ),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(
-                    space = 16.dp,
-                    alignment = Alignment.CenterVertically
-                ),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = someParameter,
-                    color = Color.White
-                )
+            Text(
+                text = someParameter,
+                color = Color.White
+            )
 
-                Text(
-                    text = "Counter: ${countingState.value}",
-                    color = Color.White
-                )
+            Text(
+                text = "Counter: ${countingState.value}",
+                color = Color.White
+            )
 
-                Button(onStartCounting) {
-                    Text("StartCounting")
-                }
+            Button(onStartCounting) {
+                Text("StartCounting")
+            }
 
-                Button(onSettings) {
-                    Text("Go to Settings")
-                }
+            Button(onSettings) {
+                Text("Go to Settings")
             }
         }
     }
+}
 
-    @Composable
-    @Preview
-    private fun ComposablePreview() {
-        Content(
-            countingState = remember { mutableStateOf(1) },
-            screenName = remember { mutableStateOf("Main") }
-        )
-    }
+@Composable
+@Preview
+private fun ProfileContentPreview() {
+    ProfileContent(
+        someParameter = "Some parameter",
+        countingState = remember { mutableStateOf(1) },
+        screenName = remember { mutableStateOf("Main") }
+    )
 }
