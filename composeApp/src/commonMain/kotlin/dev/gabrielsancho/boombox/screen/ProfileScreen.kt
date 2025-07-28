@@ -28,21 +28,23 @@ class ProfileScreen(
 
         Content(
             countingState = screenModel.counter.collectAsState(),
-            screenName = screenModel.name.value,
+            screenName = screenModel.name.collectAsState(),
             onAction = { navigator?.pop() },
-            onStartCounting = { screenModel.startCounting() }
+            onStartCounting = { screenModel.startCounting() },
+            onSettings = { navigator?.push(SettingsScreen()) }
         )
     }
 
     @Composable
     private fun Content(
         countingState: State<Int>,
-        screenName: String,
-        onAction: () -> Unit,
-        onStartCounting: () -> Unit
+        screenName: State<String>,
+        onAction: () -> Unit = {},
+        onStartCounting: () -> Unit = {},
+        onSettings: () -> Unit = {}
     ) {
         BoomboxScaffold(
-            title = "ProfileScreen ($screenName)",
+            title = "ProfileScreen (${screenName.value})",
             actionLabel = "Go back",
             onAction = onAction
         ) {
@@ -58,12 +60,18 @@ class ProfileScreen(
                     text = someParameter,
                     color = Color.White
                 )
+
                 Text(
                     text = "Counter: ${countingState.value}",
                     color = Color.White
                 )
+
                 Button(onStartCounting) {
                     Text("StartCounting")
+                }
+
+                Button(onSettings) {
+                    Text("Go to Settings")
                 }
             }
         }
@@ -74,9 +82,7 @@ class ProfileScreen(
     private fun ComposablePreview() {
         Content(
             countingState = remember { mutableStateOf(1) },
-            screenName = "Main",
-            onAction = {},
-            onStartCounting = {}
+            screenName = remember { mutableStateOf("Main") }
         )
     }
 }
