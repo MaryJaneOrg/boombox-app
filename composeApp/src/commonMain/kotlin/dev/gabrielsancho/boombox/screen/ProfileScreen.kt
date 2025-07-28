@@ -16,6 +16,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import dev.gabrielsancho.boombox.component.BoomboxScaffold
 import dev.gabrielsancho.boombox.model.ProfileModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.core.parameter.parametersOf
 
 class ProfileScreen(
     val someParameter: String
@@ -24,11 +25,12 @@ class ProfileScreen(
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
-        val screenModel = koinScreenModel<ProfileModel>()
+        val screenModel = koinScreenModel<ProfileModel>(
+            parameters = { parametersOf(someParameter) }
+        )
 
         ProfileContent(
-            someParameter = someParameter,
-            countingState = screenModel.counter.collectAsState(),
+            counter = screenModel.counter.collectAsState(),
             screenName = screenModel.name.collectAsState(),
             onAction = { navigator?.pop() },
             onStartCounting = { screenModel.startCounting() },
@@ -39,8 +41,7 @@ class ProfileScreen(
 
 @Composable
 private fun ProfileContent(
-    someParameter: String,
-    countingState: State<Int>,
+    counter: State<Int>,
     screenName: State<String>,
     onAction: () -> Unit = {},
     onStartCounting: () -> Unit = {},
@@ -60,12 +61,7 @@ private fun ProfileContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = someParameter,
-                color = Color.White
-            )
-
-            Text(
-                text = "Counter: ${countingState.value}",
+                text = "Counter: ${counter.value}",
                 color = Color.White
             )
 
@@ -84,8 +80,7 @@ private fun ProfileContent(
 @Preview
 private fun ProfileContentPreview() {
     ProfileContent(
-        someParameter = "Some parameter",
-        countingState = remember { mutableStateOf(1) },
+        counter = remember { mutableStateOf(1) },
         screenName = remember { mutableStateOf("Main") }
     )
 }

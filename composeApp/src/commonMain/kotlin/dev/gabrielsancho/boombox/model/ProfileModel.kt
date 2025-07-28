@@ -12,9 +12,10 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 class ProfileModel(
-    private val getPlatformNameUseCase: GetPlatformNameUseCase
+    private val getPlatformNameUseCase: GetPlatformNameUseCase,
+    someParameter: String
 ) : ScreenModel {
-    private val _name = MutableStateFlow("Unknown")
+    private val _name = MutableStateFlow(someParameter)
     val name = _name.asStateFlow()
 
     private val _counter = MutableStateFlow(0)
