@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import dev.gabrielsancho.boombox.usecase.GetPlatformNameUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,12 +22,19 @@ class ProfileModel(
     private val _counter = MutableStateFlow(0)
     val counter = _counter.asStateFlow()
 
+    private var countingJob: Job? = null
+
     fun startCounting() {
         _name.update { getPlatformNameUseCase() }
 
-        screenModelScope.launch(Dispatchers.Default) {
+        countingJob?.cancel()
+
+        countingJob = screenModelScope.launch(Dispatchers.Default) {
+            _counter.update { 0 }
+
             while (true) {
                 delay(1.seconds)
+
                 _counter.update { it + 1 }
             }
         }

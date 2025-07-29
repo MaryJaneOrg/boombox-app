@@ -1,5 +1,7 @@
 package dev.gabrielsancho.boombox.screen
 
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.core.screen.Screen
@@ -19,6 +21,10 @@ class HomeScreen : Screen {
             onAction = {
                 navigator?.push(ProfileScreen(someCode))
             }
-        )
+        ) {
+            Button({ navigator?.push(F1Screen()) }) {
+                Text("F1")
+            }
+        }
     }
 }

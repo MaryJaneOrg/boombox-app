@@ -3,5 +3,7 @@ package dev.gabrielsancho.boombox.module
 val boomboxModule = listOf(
     apiModule,
     useCaseModule,
-    screenModelModule
+    screenModelModule,
+    httpModule,
+    resourceModule
 )
