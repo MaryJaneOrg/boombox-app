@@ -5,3 +5,5 @@ sealed interface UiState<T> {
     data class Error<T>(val error: Throwable?) : UiState<T>
     data class Success<T>(val data: T?) : UiState<T>
 }
+
+fun <T> UiState(data: T): UiState<T> = UiState.Success(data)

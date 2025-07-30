@@ -10,23 +10,21 @@ import io.ktor.http.*
 class F1Resource(
     private val httpClient: HttpClient
 ) {
-    private val baseUrl: URLBuilder.() -> Unit = {
-        protocol = URLProtocol.HTTPS
-        host = "v1.formula-1.api-sports.io"
-    }
+    private fun <T> HttpRequestBuilder.f1Resource(path: String, body: T? = null) {
+        body?.let { setBody(it) }
 
-    suspend fun circuits(): F1ResponseDTO<List<CircuitDTO>> {
-        return httpClient.use { client ->
-            client.get {
-                url {
-                    baseUrl()
-                    path("circuits")
-                }
+        url {
+            protocol = URLProtocol.HTTPS
+            host = "v1.formula-1.api-sports.io"
+            path(path)
+        }
 
-                headers {
-                    set("x-rapidapi-key", "d11cd994a595c53e87a1db736458538e")
-                }
-            }.body()
+        headers {
+            set("x-rapidapi-key", "d11cd994a595c53e87a1db736458538e")
         }
     }
+
+    suspend fun circuits(): F1ResponseDTO<List<CircuitDTO>> = httpClient
+        .get { f1Resource<Nothing>("circuits") }
+        .body()
 }
