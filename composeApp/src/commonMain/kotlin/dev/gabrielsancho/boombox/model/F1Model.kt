@@ -2,6 +2,7 @@ package dev.gabrielsancho.boombox.model
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import dev.gabrielsancho.boombox.resource.dto.CircuitDTO
 import dev.gabrielsancho.boombox.model.domain.UiState
 import dev.gabrielsancho.boombox.usecase.GetF1CircuitsUseCase
 import kotlinx.coroutines.Dispatchers
@@ -15,14 +16,14 @@ class F1Model(
 ) : ScreenModel {
     private val refreshTrigger = Channel<Unit>(capacity = Channel.CONFLATED)
 
-    val f1Circuits: StateFlow<UiState<String>?> = flow {
+    val f1Circuits: StateFlow<UiState<List<CircuitDTO>>?> = flow {
         for (trigger in refreshTrigger) {
             emit(trigger)
         }
     }
         .flatMapLatest {
             flow { emit(getF1CircuitsUseCase()) }
-                .map { UiState.Success(it) as UiState<String> }
+                .map { UiState.Success(it) as UiState<List<CircuitDTO>> }
                 .onStart { emit(UiState.Loading()) }
         }
         .catch { emit(UiState.Error(it)) }

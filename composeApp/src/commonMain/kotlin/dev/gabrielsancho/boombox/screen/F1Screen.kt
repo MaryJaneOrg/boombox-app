@@ -1,10 +1,12 @@
 package dev.gabrielsancho.boombox.screen
 
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.graphics.Color
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import dev.gabrielsancho.boombox.resource.dto.CircuitDTO
 import dev.gabrielsancho.boombox.component.BoomboxScaffold
 import dev.gabrielsancho.boombox.model.F1Model
 import dev.gabrielsancho.boombox.model.domain.UiState
@@ -24,7 +26,7 @@ class F1Screen : Screen {
 
 @Composable
 private fun F1ScreenContent(
-    result: State<UiState<String>?>,
+    result: State<UiState<List<CircuitDTO>>?>,
     onMakeRequest: () -> Unit = {}
 ) {
     BoomboxScaffold(
@@ -32,10 +34,33 @@ private fun F1ScreenContent(
         actionLabel = "MakeRequest",
         onAction = onMakeRequest,
     ) {
-        Text(
-            text = result.value.toString(),
-            color = Color.White
-        )
+
+        when (val uiState = result.value) {
+            is UiState.Error -> Text(
+                text = "Some Error Occurred: ${uiState.error?.message}"
+            )
+
+            is UiState.Loading -> Text(
+                text = "Loading"
+            )
+
+            is UiState.Success -> Circuits(uiState.data.orEmpty())
+
+            null -> Text(
+                text = "Idle"
+            )
+        }
+    }
+}
+
+@Composable
+private fun Circuits(circuits: List<CircuitDTO>) {
+    LazyColumn {
+        items(circuits) { circuit ->
+            Text(
+                text = circuit.toString()
+            )
+        }
     }
 }
 
@@ -43,6 +68,6 @@ private fun F1ScreenContent(
 @Preview
 private fun F1ScreenContentPreview() {
     F1ScreenContent(
-        result = remember { mutableStateOf(UiState.Success("Circuits")) }
+        result = remember { mutableStateOf(UiState.Success(emptyList())) }
     )
 }
