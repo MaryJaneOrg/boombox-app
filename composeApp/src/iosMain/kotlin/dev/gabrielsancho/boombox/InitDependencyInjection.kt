@@ -1,8 +1,8 @@
 package dev.gabrielsancho.boombox
 
-import dev.gabrielsancho.boombox.setup.DependencyInjectionSetup
+import dev.gabrielsancho.boombox.config.ConfigureDI
 
 fun StartDI() {
     println("Initializing Dependency Injection for iOS")
-    DependencyInjectionSetup.start()
+    ConfigureDI.start()
 }

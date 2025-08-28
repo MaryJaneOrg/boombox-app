@@ -1,0 +1,5 @@
+<resources>
+    <string name="login">Login</string>
+    <string name="email_label">E-mail</string>
+    <string name="password_label">Senha</string>
+</resources>
